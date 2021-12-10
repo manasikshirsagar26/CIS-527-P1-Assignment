@@ -8,14 +8,15 @@
 # P1 assignment: Socket Programming - Server Side
 #######################################################
 
+
 import socket
 
 # Find server IP address
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# s.connect(("8.8.8.8", 80))
-# print("Server IP: ", s.getsockname()[0]) # Server IP address
-# SERVER_IP = s.getsockname()[0]
-# s.close()
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+print("Server IP: ", s.getsockname()[0]) # Server IP address
+SERVER_IP = s.getsockname()[0]
+s.close()
 
 SERVER_IP = '192.168.0.11'
 # Define server port using UMID
