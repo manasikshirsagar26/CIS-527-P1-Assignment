@@ -9,12 +9,14 @@
 #######################################################
 
 import socket
+import sys
 
-CLIENT = '127.0.0.1'  # The server's hostname or IP address
-SERVER_PORT = 4807        # The port used by the server
+SERVER_IP = sys.argv[1] #'127.0.0.1'  # The server's hostname or IP address
+print("server ip provided", SERVER_IP)
+SERVER_PORT = 4807        # Server port 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((CLIENT, SERVER_PORT))
+    s.connect((SERVER_IP, SERVER_PORT))
     client_input = input('Please provide input MSGGET or MSGSTORE or EXIT: ')
     if (client_input == 'MSGGET'):
         print('c: MSGGET')
@@ -41,6 +43,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             receivedData = receivedData.decode()
             print('s: '+receivedData)
             # print(repr(receivedData))
+    elif (client_input == 'EXIT'):
+        print('Exit requested by user. Exiting the program.')
     else:
         print('Unrecognised Input, Please provide input MSGGET or MSGSTORE')
     
