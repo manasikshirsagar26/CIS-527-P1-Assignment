@@ -37,24 +37,23 @@ message_of_the_day = 'Anyone who has never made a mistake has never tried anythi
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((SERVER_IP, SERVER_PORT))                                # Associate the socket with a specific network interface and port number
     s.listen()                                                      # listens for connections from client
-    conn, addr = s.accept()                                         # to establish a connection to the server and initiate the three-way handshake
-    with conn:
-        while True:
+    conn, addr = s.accept()                                         # to establish a connection to the server and client
+    with conn:                                                      
+        while True:                                                 # loop will iterate till client connection is active
             receivedData = conn.recv(1024)                          
             receivedData = receivedData.decode()
-            print(receivedData)
             if not receivedData:
                 print('No data received from client. Exiting program.\n')
                 break
-            elif (receivedData == 'MSGGET\n'):
-                sending = acknowledgment +'\n   '+ message_of_the_day + '\n'
-                conn.sendall(sending.encode())
-            elif (receivedData == 'MSGSTORE\n'):
+            elif (receivedData == 'MSGGET\n'):                      ## MSGGET Command
+                sending = acknowledgment +'\n   '+ message_of_the_day + '\n' # send the ACK and Message of the day from server to client
+                conn.sendall(sending.encode())                      # Encode the message being sent
+            elif (receivedData == 'MSGSTORE\n'):                    ## MSGSTORE Command
                 #print('This is msg store\n',receivedData)
-                conn.sendall(acknowledgment.encode())
-                receivedData = conn.recv(1024)
-                receivedData = receivedData.decode()
-                message_of_the_day = receivedData
-                conn.sendall((acknowledgment+'\n').encode())
+                conn.sendall(acknowledgment.encode())               # Send the encoded ACK message from server to client
+                receivedData = conn.recv(1024)                      # Receive the message of the day sent from client
+                receivedData = receivedData.decode()                # Decode the message of the day sent by client
+                message_of_the_day = receivedData                   # Update the existing Message of the day by new one sent by client
+                conn.sendall((acknowledgment+'\n').encode())        # Send ACK to client
 
             
